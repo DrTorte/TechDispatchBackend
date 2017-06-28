@@ -236,6 +236,8 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\AppointmentsController.cs" />
+    <Compile Include="Controllers\FieldTechsController.cs" />
+    <Compile Include="Controllers\TowersController.cs" />
     <Compile Include="CustomAttributes.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -246,6 +248,10 @@
     <Compile Include="Migrations\201706190100097_alpha1.cs" />
     <Compile Include="Migrations\201706190100097_alpha1.Designer.cs">
       <DependentUpon>201706190100097_alpha1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201706230331517_alpha2.cs" />
+    <Compile Include="Migrations\201706230331517_alpha2.Designer.cs">
+      <DependentUpon>201706230331517_alpha2.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\___201705290336384_init.cs" />
     <Compile Include="Migrations\___201705290336384_init.Designer.cs">
@@ -291,6 +297,7 @@
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
+    <None Include="LICENSE" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Areas\HelpPage\Views\Web.config" />
@@ -362,6 +369,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201706190100097_alpha1.resx">
       <DependentUpon>201706190100097_alpha1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201706230331517_alpha2.resx">
+      <DependentUpon>201706230331517_alpha2.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\___201705290336384_init.resx">
       <DependentUpon>___201705290336384_init.cs</DependentUpon>

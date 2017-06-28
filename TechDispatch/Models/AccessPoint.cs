@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 
@@ -24,5 +25,21 @@ namespace TechDispatch.Models
 
         [Display(Name = "Comment")]
         public virtual string Comment { get; set; }
+    }
+
+    [NotMapped]
+    public class AccessPointView : AccessPoint
+    {
+        public string CurrentStateName { get; set; }
+        public AccessPointView(AccessPoint ap)
+        {
+            AccessPointID = ap.AccessPointID;
+            TowerId = ap.TowerId;
+
+            Name = ap.Name;
+            CurrentStateName = ap.CurrentState.ToString();
+
+            Comment = ap.Comment;
+        }
     }
 }
