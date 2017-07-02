@@ -23,17 +23,17 @@ namespace TechDispatch.Controllers
         // GET: api/Appointments
         [Route("")]
         [HttpGet]
-        public async Task<IHttpActionResult> GetAppointments(DateTime? FromDate = null, 
+        public async Task<IHttpActionResult> GetAppointments(DateTime? FromDate = null,
             DateTime? ToDate = null, int? Skip = null, int? Count = null, int? CustomerId = null, int? TowerId = null, int? ZoneId = null)
         {
             List<Appointment> Appointments = db.Appointments.Include("Customer").Include("TimeSlot").Include("Customer.Tower").Include("Customer.Tower.InstallZone").Include("FieldTech")
-                .Where(x=> CustomerId == null || x.CustomerID == CustomerId)
-                .Where(x=> TowerId == null || x.Customer.Tower.TowerID == TowerId)
-                .Where(x=> ZoneId == null || x.Customer.Tower.InstallZoneId == ZoneId)
-                .Where(x=> FromDate == null || x.Date >= FromDate)
-                .Where(x=> ToDate == null || x.Date <= ToDate)
+                .Where(x => CustomerId == null || x.CustomerID == CustomerId)
+                .Where(x => TowerId == null || x.Customer.Tower.TowerID == TowerId)
+                .Where(x => ZoneId == null || x.Customer.Tower.InstallZoneId == ZoneId)
+                .Where(x => FromDate == null || x.Date >= FromDate)
+                .Where(x => ToDate == null || x.Date <= ToDate)
                 .ToList();
-            
+
             if (Skip != null)
             {
                 Appointments = Appointments.Skip((int)Skip).ToList();
@@ -42,7 +42,7 @@ namespace TechDispatch.Controllers
             {
                 Appointments = Appointments.Take((int)Count).ToList();
             }
-            List <AppointmentJsonView> apps = new List<AppointmentJsonView>();
+            List<AppointmentJsonView> apps = new List<AppointmentJsonView>();
             List<Task> tasks = new List<Task>();
             using (var dbb = db)
             {
@@ -72,7 +72,7 @@ namespace TechDispatch.Controllers
 
 
 
-            return Ok(new AppointmentDetailJson(appointment,db));
+            return Ok(new AppointmentDetailJson(appointment, db));
         }
 
         // PUT: api/Appointments/5
@@ -116,7 +116,7 @@ namespace TechDispatch.Controllers
             Validate<Appointment>(appointment);
             if (appointment == null)
             {
-                ModelState.AddModelError("","Request is null.");
+                ModelState.AddModelError("", "Request is null.");
             }
             if (!ModelState.IsValid)
             {
@@ -129,12 +129,20 @@ namespace TechDispatch.Controllers
             await db.SaveChangesAsync();
 
             //now that this is done, we also want to go ahead and create the comments.
-            db.Comments.Add(new Comment { AppointmentId = appointment.AppointmentID, CreationDate = DateTime.Now, Creator = User.Identity.Name, Value ="GFASDFSADF" });
+            db.Comments.Add(new Comment { AppointmentId = appointment.AppointmentID, CreationDate = DateTime.Now, Creator = User.Identity.Name, Value = "GFASDFSADF" });
 
             //and once more, save changes.
             await db.SaveChangesAsync();
 
             return CreatedAtRoute("DefaultApi", new { id = appointment.AppointmentID }, appointment);
+        }
+
+        [Route("Reasons")]
+        [ResponseType(typeof(AppointmentSubReason))]
+        [HttpGet]
+        public async Task<IHttpActionResult> GetSubReasons(bool onlyActive = true)
+        {
+            return Ok(db.AppointmentSubReasons.Where(x => !onlyActive || x.Active));
         }
 
         protected override void Dispose(bool disposing)

@@ -21,6 +21,14 @@ namespace TechDispatch.Models
         public string Name { get; set; }
         [Required]
         public bool Active { get; set; }
+        [Required]
+        public bool Install { get; set; }
+        [Required]
+        public bool Repair { get; set; }
+        [Required]
+        public bool Misc { get; set; }
+        [Required]
+        public bool RequireComment { get; set; }
     }
 
     public class AppointmentStateReason
