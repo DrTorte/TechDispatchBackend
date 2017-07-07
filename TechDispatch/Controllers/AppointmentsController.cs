@@ -46,7 +46,7 @@ namespace TechDispatch.Controllers
             List<Task> tasks = new List<Task>();
             using (var dbb = db)
             {
-                dbb.Database.Connection.Open();
+                await dbb.Database.Connection.OpenAsync();
                 foreach (var x in Appointments)
                 {
                     tasks.Add(Task.Factory.StartNew(() => { apps.Add(new AppointmentJsonView(x)); }));

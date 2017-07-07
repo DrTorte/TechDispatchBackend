@@ -236,6 +236,7 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\AppointmentsController.cs" />
+    <Compile Include="Controllers\CustomersController.cs" />
     <Compile Include="Controllers\FieldTechsController.cs" />
     <Compile Include="Controllers\TowersController.cs" />
     <Compile Include="CustomAttributes.cs" />
@@ -252,6 +253,10 @@
     <Compile Include="Migrations\201706230331517_alpha2.cs" />
     <Compile Include="Migrations\201706230331517_alpha2.Designer.cs">
       <DependentUpon>201706230331517_alpha2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201707030132506_alpha3.cs" />
+    <Compile Include="Migrations\201707030132506_alpha3.Designer.cs">
+      <DependentUpon>201707030132506_alpha3.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\___201705290336384_init.cs" />
     <Compile Include="Migrations\___201705290336384_init.Designer.cs">
@@ -276,6 +281,7 @@
     <Compile Include="Models\FieldTech.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\InstallZone.cs" />
+    <Compile Include="Controllers\InstallZonesController.cs" />
     <Compile Include="Models\IP.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\MiscViewModels.cs" />
@@ -372,6 +378,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201706230331517_alpha2.resx">
       <DependentUpon>201706230331517_alpha2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201707030132506_alpha3.resx">
+      <DependentUpon>201707030132506_alpha3.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\___201705290336384_init.resx">
       <DependentUpon>___201705290336384_init.cs</DependentUpon>

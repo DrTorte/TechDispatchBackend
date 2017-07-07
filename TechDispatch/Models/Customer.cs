@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Web;
@@ -21,7 +22,7 @@ namespace TechDispatch.Models
 
         public virtual int CustomerID { get; set; }
 
-        [Display(Name="Customer State")]
+        [Display(Name = "Customer State")]
         public virtual CustomerStatus CustomerState { get; set; }
 
         [Required]
@@ -67,16 +68,16 @@ namespace TechDispatch.Models
             set
             {
                 //strip everything that's not a number out.
-                if (value != null){
+                if (value != null) {
                     var TN = Regex.Replace(value, @"[^\d]", "");
                     _PhoneNumber = TN;
                 }
             }
         }
 
-        [Display(Name="Username")]
+        [Display(Name = "Username")]
         public virtual string PPPoEUser { get; set; }
-        [Display(Name="Password")]
+        [Display(Name = "Password")]
         public virtual string PPPoEPassword { get; set; }
 
         public virtual int? TowerId { get; set; }
@@ -86,7 +87,7 @@ namespace TechDispatch.Models
         public virtual IP IP { get; set; }
 
         //change this later!!
-        [Display(Name="Speed")]
+        [Display(Name = "Speed")]
         public virtual Speed? CustomerSpeed { get; set; }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
@@ -130,7 +131,7 @@ namespace TechDispatch.Models
             }
         }
 
-        public void Cancel(bool hold){
+        public void Cancel(bool hold) {
             TechDispatchContext db = new TechDispatchContext();
             CustomerState = hold == true ? CustomerStatus.Hold : CustomerStatus.Cancelled;
             if (IPID != null)
@@ -157,116 +158,20 @@ namespace TechDispatch.Models
         }
     }
 
-    public class CustomerIndexActivitiesView
+    [NotMapped]
+    public class CustomerListJson
     {
         public virtual int CustomerID { get; set; }
-        public virtual string Activity { get; set; }
-        public virtual string ActivityName { get; set; }
-    }
-
-    public class CustomerActivateView
-    {
-        public virtual int ID { get; set; }
-
-        [Required]
         public virtual string Name { get; set; }
-
-        [Required]
-        [Display(Name="Phone Number")]
-        public string PhoneNumber { get; set; }
-
-        [Required]
-        [Range(0, int.MaxValue)]
-        [Display(Name = "Tower")]
-        public int? TowerId { get; set; }
-
-        [Required]
-        [Range(0,int.MaxValue)]
-        [Display(Name = "IP")]
-        public int? IPID { get; set; }
-    }
-
-    public class CustomerCreateView
-    {
-        [Display(Name = "Customer State")]
-        public virtual Customer.CustomerStatus CustomerState { get; set; }
-
-        [Required]
-        public virtual string Name { get; set; }
-
-        [Required]
         public virtual string Address { get; set; }
 
-        public string _PhoneNumber;
-
-        [Display(Name = "Phone Number")]
-        [Required]
-        [RegularExpression("[0-9]{3}.*[0-9]{3}.*[0-9]{4}.*[0-9]*")]
-
-        public virtual string PhoneNumber
+        public CustomerListJson(Customer cx)
         {
-            get
-            { return _PhoneNumber; }
-            set
-            {
-                //strip everything that's not a number out.
-                if (value != null)
-                {
-                    var TN = Regex.Replace(value, @"[^\d]", "");
-                    _PhoneNumber = TN;
-                }
-            }
-        }
+            CustomerID = cx.CustomerID;
+            Name = cx.Name;
+            Address = cx.Address;
 
-        [Display(Name = "Username")]
-        public virtual string PPPoEUser { get; set; }
-        [Display(Name = "Password")]
-        public virtual string PPPoEPassword { get; set; }
-
-        public virtual int TowerId { get; set; }
-        public virtual Tower Tower { get; set; }
-
-        public virtual int IPID { get; set; }
-        public virtual IP IP { get; set; }
-
-        //change this later!!
-        [Display(Name = "Speed")]
-        public virtual Customer.Speed CustomerSpeed { get; set; }
-
-        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
-        {
-            if (TowerId == null)
-                yield return new ValidationResult("Tower is required!");
-            if (IPID == null)
-                yield return new ValidationResult("IP is required!");
-            if (CustomerSpeed == null)
-                yield return new ValidationResult("Speed is required!");
-
-            // do some further checks here. Make sure that the IP exists in the tower.
-            TechDispatchContext db = new TechDispatchContext();
-
-            if (CustomerState == TechDispatch.Models.Customer.CustomerStatus.Active || CustomerState == TechDispatch.Models.Customer.CustomerStatus.Pending)
-            {
-                var _tower = db.Towers.DefaultIfEmpty(null).FirstOrDefault(x => x.TowerID == TowerId);
-                if (_tower == null)
-                {
-                    yield return new ValidationResult("Invalid tower selected.");
-                }
-                else
-                {
-                    var _ip = _tower.IPs.DefaultIfEmpty(null).FirstOrDefault(x => x.IPId == IPID);
-                    if (_ip == null)
-                    {
-                        yield return new ValidationResult("IP not found in tower.");
-                    }
-                }
-            }
-
-            // now check to see if IP isn't taken elsewhere, if it's defined.
-            if (IPID != null && db.Customers.DefaultIfEmpty(null).FirstOrDefault(x => x.IPID == IPID) != null)
-            {
-                yield return new ValidationResult("IP already taken.");
-            }
         }
     }
+
 }
